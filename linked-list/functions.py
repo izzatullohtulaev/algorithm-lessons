@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jul 12 06:57:25 2023
-
-@author: Tulayev Izzat
-"""
-
 class Node:
     def __init__(self, data):
         self.data = data
@@ -12,47 +5,68 @@ class Node:
 class LinkedList:
     def __init__(self):
         self.head = None
-    def printList(self):
-        temp = self.head
-        while temp:
-            # if temp.data==None:
-            #     temp = temp.next
-            #     continue
-            print(temp.data)
-            temp = temp.next
-    def push(self, newnode):
-        newnode = Node(newnode)
-        newnode.next = self.head
-        self.head = newnode
-    def insertAfter(self, prev_node, new_node):
-        if prev_node is None:
-            print("Tugun mavjud emas")
-            return 
-        new_node = Node(new_node)
-        new_node.next = prev_node.next
-        prev_node.next = new_node
-    def append(self, new_node):
-        new_node = Node(new_node)
+    def get_length(self):
+        currentNode = self.head
+        length = 0
+        while currentNode is not None:
+            length += 1
+            currentNode = currentNode.next
+        return length
+    def insert_end(self, newNode):
         if self.head is None:
-            self.head = new_node
+            self.head = newNode
             return
-        last = self.head
-        while last.next:
-            last = last.next
-        last.next = new_node
-    def deleteNode(self, key):
-        temp = self.head # Dushanba
-        if temp.data == key:
-            self.head = temp.next
-            temp = None
-            return
-        while temp:
-            if temp.data == key: # True
+        currentNode = self.head
+        while True:
+            if currentNode.next is None:
+                currentNode.next = newNode
                 break
-            prev = temp # Seshanba
-            temp = temp.next # Chorshanba
-        if temp==None:
+            currentNode = currentNode.next
+    def print_list(self):
+        if self.head is None:
+            print("Current List is empty!")
             return
-        prev.next = temp.next 
-        temp = None
-            
+        currentNode = self.head
+        while True:
+            print(currentNode.data)
+            currentNode = currentNode.next
+            if currentNode == None:
+                break
+    def insert_head(self, newNode):
+        if self.head is None:
+            self.head = newNode
+            return
+        tempNode = self.head
+        self.head=newNode
+        self.head.next = tempNode
+    def insert_between(self, newNode, first, second):
+        first.next = newNode
+        newNode.next = second
+    def insert_at(self, newNode, position):
+        if position == 0:
+            self.insert_head(newNode)
+            return
+        if position < 0 or position>self.get_length():
+            print("Invalid position!")
+            return
+        currentNode = self.head
+        currentPosition = 0
+        while True:
+            if currentPosition == position:
+                prevNode.next = newNode
+                newNode.next = currentNode
+                break
+            prevNode = currentNode
+            currentNode = currentNode.next
+            currentPosition += 1
+    def remove_last(self):
+        currentNode = self.head
+        index = 0
+        while True:
+            if index == self.get_length()-1:
+                tempNode = currentNode
+                del currentNode.next
+                tempNode.next = None
+                break
+            currentNode = currentNode.next
+            index += 1
